@@ -27,6 +27,13 @@ typedef struct s_token {
 	t_type type;
 	t_token *next;
 } t_token;
+
+typedef struct s_token_list {
+	size_t size; // change to int?
+	t_token *first;
+	t_token *last;
+} t_token_list;
+
 //do I need easy access to previous token also?
 
 #endif

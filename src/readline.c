@@ -24,16 +24,6 @@ char *rl_gets()
 	return (line_read);
 }
 
-t_token *create_token(char *str, t_type type)
-{
-	t_token token;
-
-	token.token = str;
-	token.type = type;
-	token.next = NULL;
-	return (&token);
-}
-
 // int	ft_iswspace(int c)
 // {
 // 	if ((c > 8 && c < 14) || c == ' ')

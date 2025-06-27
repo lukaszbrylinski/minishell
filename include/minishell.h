@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dszafran <dszafran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/06/26 15:47:07 by dszafran         ###   ########.fr       */
+/*   Updated: 2025/06/27 15:30:48 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,10 @@
 typedef enum {CMND, WORD, RDIR, PIPE} t_type;
 
 typedef struct s_token {
+	t_token *previous;
 	char *token;
 	t_type type;
-	void *next; 
+	t_token *next;
 } t_token;
 //do I need easy access to previous token also?
 

@@ -98,7 +98,7 @@ void list_del_free(t_token_list *list)
 
 void print_node(t_token *token)
 {
-
+    printf("Token: %s\nType %d\nPrevious: %s\nNext: %s", token->token, token->type, token->previous, token->next);
 }
 
 // do I need a function to remove specific token? maybe...

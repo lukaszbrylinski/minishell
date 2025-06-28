@@ -28,10 +28,10 @@
 typedef enum {CMND, WORD, RDIR, PIPE} t_type; // change types? (add file?)
 
 typedef struct s_token {
-	t_token *previous;
+	struct s_token *previous;
 	char *token;
 	t_type type; //should I analize the type during parsing?
-	t_token *next;
+	struct s_token *next;
 } t_token;
 
 typedef struct s_token_list {

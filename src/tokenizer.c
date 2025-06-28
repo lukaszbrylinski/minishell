@@ -2,7 +2,7 @@
 
 #include "minishell.h"
 
-t_token *create_token(char *str, t_token *previous, t_type type) // do I need a function to create tokens with set next?
+t_token *create_token(char *str, t_type type) // do I need a function to create tokens with set next?
 {
 	t_token *token;
 
@@ -11,12 +11,12 @@ t_token *create_token(char *str, t_token *previous, t_type type) // do I need a 
         return (NULL);
 	token->token = ft_strdup(str);
 	token->type = type;
-    token->previous = previous;
+    token->previous = NULL;
 	token->next = NULL;
 	return (token);
 }
 
-t_list *list_init()
+t_token_list *list_init()
 {
     t_token_list *list;
 
@@ -27,7 +27,7 @@ t_list *list_init()
     return (list);
 }
 
-size_t add_back(t_token_list *list, t_token *token) //or keep it void?
+void add_back(t_token_list *list, t_token *token) //or keep it void?
 {
     if (!token)
         return ;
@@ -39,14 +39,15 @@ size_t add_back(t_token_list *list, t_token *token) //or keep it void?
     else
     {
         token->previous = list->last;
+        list->last->next = token;
         token->next = NULL; //should it be start?
         list->last = token;
     }
     list->size++;
-    return(list->size);
+    // return(list->size);
 }
 
-size_t add_front(t_token_list *list, t_token *token)
+void add_front(t_token_list *list, t_token *token)
 {
     if (!token)
         return ;
@@ -58,11 +59,12 @@ size_t add_front(t_token_list *list, t_token *token)
     else
     {
         token->next = list->first;
+        list->first->previous = token;
         token->previous = NULL; //should it be last?
         list->first = token;
     }
     list->size++;
-    return(list->size);
+    // return(list->size);
 }
 
 void free_delete_first(t_token_list *list)
@@ -98,21 +100,34 @@ void list_del_free(t_token_list *list)
 
 void print_node(t_token *token)
 {
-    printf("Token: %s\nType %d\nPrevious: %s\nNext: %s", token->token, token->type, token->previous, token->next);
+    printf("Token: %s\nType %d\n", token->token, token->type);
+    if (token->previous)
+        printf("Previous: %s\n", token->previous->token);
+    else
+        printf("Previous: NULL\n");
+    if (token->next)
+        printf("Next: %s\n\n", token->next->token);
+    else
+        printf("Next: NULL\n\n");
 }
+
+// void print_list(t_token_list *list)
+// {
+
+// }
 
 // do I need a function to remove specific token? maybe...
 
-size_t remove_front(t_token_list *list, t_token *token) // do I need a function to delete single token?
-{
+// size_t remove_front(t_token_list *list, t_token *token) // do I need a function to delete single token?
+// {
     // should I match token based on address? there can be multiple wih the same containts
     
-}
+// }
 
-size_t remove_back(t_token_list *list, t_token *token)
-{
+// size_t remove_back(t_token_list *list, t_token *token)
+// {
 
-}
+// }
 
 // no need - I keep size in structure and update inside functions
 // size_t list_len(t_token list)
@@ -128,3 +143,34 @@ size_t remove_back(t_token_list *list, t_token *token)
 //         list->first = list->first->next;
 //     }  
 // }
+
+int main()
+{
+    t_token_list *list;
+    t_token *token1;
+    t_token *token2;
+    t_token *token3;
+
+    list = list_init();
+    printf("initialized list: \nsize: %zu\n\n", list->size); //\nfirst: %s\nlast: %s , list->first->token, list->last->token
+
+    token1 = create_token("cat", CMND);
+    token2 = create_token(">>", RDIR); //I specify previous inside add functions - no need to keep it here
+    token3 = create_token("text.txt", WORD);
+
+    // how to print nodes if they are freed/null?
+    // i need to polish my print function to be error prone (or accept segfaults)
+
+    print_node(token1);
+    print_node(token2);
+    print_node(token3);
+
+    add_back(list, token1);
+    add_back(list, token2);
+    add_back(list, token3);
+
+    print_node(token1);
+    print_node(token2);
+    print_node(token3);
+
+}

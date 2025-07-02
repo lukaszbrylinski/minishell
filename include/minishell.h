@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/06/28 17:23:43 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/02 16:35:36 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,17 @@ typedef struct s_token_list {
 	t_token *first;
 	t_token *last;
 } t_token_list;
+
+
+t_token *create_token(char *str, t_type type);
+t_token_list *list_init();
+void add_back(t_token_list *list, t_token *token);
+void add_front(t_token_list *list, t_token *token);
+void free_delete_first(t_token_list *list);
+void list_del_free(t_token_list *list);
+void print_node(t_token *token);
+char	*ft_strndup(const char *s, int len);
+void get_tokens(char *cl_input, t_token_list *token_list);
 
 //do I need easy access to previous token also?
 

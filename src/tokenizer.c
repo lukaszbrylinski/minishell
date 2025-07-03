@@ -4,6 +4,65 @@
 
 #include "minishell.h"
 
+t_type detect_type(char c)
+{
+	t_type type;
+
+	if (ft_strchr(" \t\n\v\r\f", c))
+		type = SEP;
+	else if (ft_strchr("<>", c))
+		type = RDIR;
+	else if (c == '|')
+		type = PIPE;
+	else if (ft_strchr("\"\'", c))
+		type = QUOT;
+	else
+		type = CMND;
+	return (type);
+}
+
+void print_type(int n)
+{
+	if (n == 0)
+		printf("SEP\n");
+	if (n == 1)
+		printf("CMND\n");
+	if (n == 2)
+		printf("QUOT\n");
+	if (n == 3)
+		printf("RDIR\n");
+	if (n == 4)
+		printf("PIPE\n");
+}
+// type functions
+int iterate(char *cl_input, t_type type)
+{
+	int i;
+
+	i = 0;
+	while (type == detect_type(cl_input[i]))
+		i++;
+	return (i);
+}
+
+// I will treat unclosed quotation as  or.. I can add enum with opening and closed state
+int quotation(char *cl_input)
+{
+	int i;
+	char c;
+
+	c = cl_input[0];
+	i = 0;
+	while (cl_input[++i])
+		if (cl_input[i] == c)
+			return (i + 2);
+	return (i);
+}
+
+
+//while (type == detect_type)
+// i++;
+
 void get_tokens(char *cl_input, t_token_list *token_list) //make separate functions for token types
 {
 	int i;
@@ -38,6 +97,22 @@ void get_tokens(char *cl_input, t_token_list *token_list) //make separate functi
 		i = j;
 	}
 }
+
+// int main()
+// {
+// 	char *cl_input;
+// 	t_token_list *token_list;
+
+// 	while (1)
+// 	{
+// 		token_list = list_init();
+// 		cl_input = rl_gets();
+// 		get_tokens(cl_input, token_list);
+// 		print_list(token_list); 
+// 		//here should go the parsing and command executing part
+// 	}
+// 	return (0);	
+// }
 
 // t_token *tokenizer(char *cl_input) //test it!
 // {

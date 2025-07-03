@@ -27,7 +27,7 @@ t_token *create_token(char *str, t_type type) // do I need a function to create 
 
     token = malloc(sizeof(t_token));
     if (!token)
-        return (NULL);
+		return (NULL);
 	token->token = ft_strdup(str);
 	token->type = type;
     token->previous = NULL;
@@ -130,10 +130,22 @@ void print_node(t_token *token)
         printf("Next: NULL\n\n");
 }
 
-// void print_list(t_token_list *list)
-// {
-
-// }
+void print_list(t_token_list *list)
+{
+    t_token *current;
+    if (!list) //|| !list->first
+    {
+        printf("No list to print\n");
+        return ;
+    }
+    printf("Printing list\n");
+    current = list->first;
+    while (current != NULL)
+    {
+        print_node(current);
+        current = current->next;
+    }
+}
 
 // do I need a function to remove specific token? maybe...
 
@@ -180,16 +192,26 @@ void print_node(t_token *token)
 //     // how to print nodes if they are freed/null?
 //     // i need to polish my print function to be error prone (or accept segfaults)
 
-//     print_node(token1);
+//     printf("Nodes:\n");
+//     print_node(token1); // why only cat is not printed correctly?
 //     print_node(token2);
 //     print_node(token3);
+//     printf("List: \n");
+//     print_list(list);
 
 //     add_back(list, token1);
 //     add_back(list, token2);
 //     add_back(list, token3);
+//     printf("\n\nList after adding token1, token2, token3:\n");
+//     print_list(list);
 
-//     print_node(token1);
-//     print_node(token2);
-//     print_node(token3);
+//     printf("\n\nList after deleting first:\n");
+//     free_delete_first(list);
+//     print_list(list);
+
+//     printf("\n\nList after deleating and freeing:\n");
+//     list_del_free(list);
+//     list = NULL;
+//     print_list(list);
 
 // }

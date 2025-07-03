@@ -4,7 +4,7 @@
 
 #include "minishell.h"
 
-void get_tokens(char *cl_input, t_token_list *token_list)
+void get_tokens(char *cl_input, t_token_list *token_list) //make separate functions for token types
 {
 	int i;
 	int j;
@@ -18,19 +18,24 @@ void get_tokens(char *cl_input, t_token_list *token_list)
 		if (ft_strchr(" \t\n\v\r\f", cl_input[i]))
 			continue ;
 		else if (ft_strchr("<>", cl_input[i]))
+		{	
 			type = RDIR;
 			if (ft_strchr("<>", cl_input[i + 1]))
 				j++;
+		}
 		else if (cl_input[i] == '|')
 			type = PIPE;
 		else
 		{	
 			while(!ft_strchr(" \t\n\v\r\f<>|", cl_input[j + 1]))
 				j++;
-			type = WORD;
+			type = CMND;
 		}
-		token = create_token(ft_strndup(&cl_input[i], j), type);
+		// but I need to also check for WORD - more tricky due to missing " / '
+		// for sure I need separate functions for types, maybe I should use enum
+		token = create_token(ft_strndup(&cl_input[i], j-i + 1), type);
 		add_back(token_list, token);
+		i = j;
 	}
 }
 

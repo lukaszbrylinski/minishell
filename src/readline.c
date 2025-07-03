@@ -48,7 +48,7 @@ int main()
 		token_list = list_init();
 		cl_input = rl_gets();
 		get_tokens(cl_input, token_list);
-		print_list(token_list); //not git pushed? :<<<
+		print_list(token_list); 
 		//here should go the parsing and command executing part
 	}
 	return (0);	

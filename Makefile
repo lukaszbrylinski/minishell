@@ -2,10 +2,11 @@
 
 NAME		= minishell
 INCLUDE		= include
-# LIBFT		= libft
-# LIBFT_A		= $(LIBFT)/libft.a
+LIBFT		= libft
+LIBFT_A		= $(LIBFT)/libft.a
 SRC_DIR		= src/
 OBJ_DIR		= obj/
+# TEST_DIR	= tests/
 CC			= cc
 CFLAGS		= -Wall -Werror -Wextra -I
 RM			= rm -f
@@ -24,10 +25,17 @@ WHITE = \033[0;97m
 
 #Sources
 
-SRC_FILES	=	readline
+SRC_FILES	=	token_functions tokenizer readline
 
 SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+
+#Tests
+
+# TEST_FILES	= 
+
+# TEST_SRC	=	$(addprefix) $(TEST_DIR), $(addsuffix .c $(TEST_FILES))
+# TEST_OBJ	=	$(addprefix) $(TEST_DIR), $(addsuffix .o $(TEST_FILES))
 
 ###
 

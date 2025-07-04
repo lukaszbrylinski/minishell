@@ -68,11 +68,11 @@ void tokenizer(char *cl_input, t_token_list *token_list)
 	{
 		type = detect_type(cl_input[i]);
 		len = get_token_len(&cl_input[i], type);
-		// if (type != SEP)
-		// {	
+		if (type != SEP)
+		{	
 		token = create_token(ft_strndup(&cl_input[i], len), type);
 		add_back(token_list, token);
-		// }
+		}
 		i += len - 1;
 	}
 	//why it doesn't work correctly with check for SEP?

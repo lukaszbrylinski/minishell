@@ -34,31 +34,49 @@ void print_type(int n)
 	if (n == 4)
 		printf("PIPE\n");
 }
-// type functions
-int iterate(char *cl_input, t_type type)
-{
-	int i;
-
-	i = 0;
-	while (type == detect_type(cl_input[i]))
-		i++;
-	return (i);
-}
-
 // I will treat unclosed quotation as  or.. I can add enum with opening and closed state
-int quotation(char *cl_input)
+int get_token_len(char *cl_input, t_type type)
 {
 	int i;
-	char c;
+	int c;
 
-	c = cl_input[0];
 	i = 0;
-	while (cl_input[++i])
-		if (cl_input[i] == c)
-			return (i + 2);
+	if (type == QUOT)
+	{
+		c = cl_input[0];
+		while (cl_input[++i])
+			if (cl_input[i] == c)
+				return (i + 2);
+	}
+	else if (type == PIPE)
+		return (1);
+	else
+		while (type == detect_type(cl_input[i]))
+			i++;
 	return (i);
 }
 
+void tokenizer(char *cl_input, t_token_list *token_list)
+{
+	int i;
+	int len;
+	t_type type;
+	t_token *token;
+
+	i = -1;
+	while (cl_input[++i])
+	{
+		type = detect_type(cl_input[i]);
+		len = get_token_len(&cl_input[i], type);
+		// if (type != SEP)
+		// {	
+		token = create_token(ft_strndup(&cl_input[i], len), type);
+		add_back(token_list, token);
+		// }
+		i += len - 1;
+	}
+	//why it doesn't work correctly with check for SEP?
+}
 
 //while (type == detect_type)
 // i++;
@@ -97,22 +115,6 @@ void get_tokens(char *cl_input, t_token_list *token_list) //make separate functi
 		i = j;
 	}
 }
-
-// int main()
-// {
-// 	char *cl_input;
-// 	t_token_list *token_list;
-
-// 	while (1)
-// 	{
-// 		token_list = list_init();
-// 		cl_input = rl_gets();
-// 		get_tokens(cl_input, token_list);
-// 		print_list(token_list); 
-// 		//here should go the parsing and command executing part
-// 	}
-// 	return (0);	
-// }
 
 // t_token *tokenizer(char *cl_input) //test it!
 // {

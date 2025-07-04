@@ -24,6 +24,23 @@ char *rl_gets()
 	return (line_read);
 }
 
+
+int main()
+{
+	char *cl_input;
+	t_token_list *token_list;
+
+	while (1)
+	{
+		token_list = list_init();
+		cl_input = rl_gets();
+		tokenizer(cl_input, token_list);
+		print_list(token_list); 
+		//here should go the parsing and command executing part
+	}
+	return (0);	
+}
+
 // int	ft_iswspace(int c)
 // {
 // 	if ((c > 8 && c < 14) || c == ' ')
@@ -38,18 +55,22 @@ char *rl_gets()
 // 	// i need to parse prompt in order to know which part is a command, which is flag and what are the arguments?  
 // }
 
-int main()
-{
-	char *cl_input;
-	t_token_list *token_list;
+// int main()
+// {
+// 	char *cl_input;
+// 	t_token_list *token_list;
+// 	int i;
 
-	while (1)
-	{
-		token_list = list_init();
-		cl_input = rl_gets();
-		get_tokens(cl_input, token_list);
-		print_list(token_list); 
-		//here should go the parsing and command executing part
-	}
-	return (0);	
-}
+// 	while (1)
+// 	{
+// 		token_list = list_init();
+// 		cl_input = rl_gets();
+// 		i = -1;
+// 		while (cl_input[++i])
+// 		{	printf("character: %c type: ", cl_input[i]);
+// 			print_type(detect_type(cl_input[i]));}
+// 			// printf("\n\n");
+// 		//here should go the parsing and command executing part
+// 	}
+// 	return (0);	
+// }

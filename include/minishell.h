@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dszafran <dszafran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/03 16:23:44 by dszafran         ###   ########.fr       */
+/*   Updated: 2025/07/04 07:15:23 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // #define LIST_FOREACH(L, S, M, V) ListNode *_node = NULL; \
 // for(V = _node = L->S; _node != NULL; V= _node = _node->M)
 
-typedef enum {CMND, WORD, RDIR, PIPE} t_type; // change types? (add file?)
+typedef enum {SEP, CMND, QUOT, RDIR, PIPE} t_type; // change types? (add file?) VAR, FILE, STATUS
 
 typedef struct s_token {
 	struct s_token *previous;
@@ -50,6 +50,10 @@ void list_del_free(t_token_list *list);
 void print_node(t_token *token);
 void print_list(t_token_list *list);
 char	*ft_strndup(const char *s, int len);
+t_type detect_type(char c);
+void print_type(int n);
+int get_token_len(char *cl_input, t_type type);
+void tokenizer(char *cl_input, t_token_list *token_list);
 void get_tokens(char *cl_input, t_token_list *token_list);
 
 //do I need easy access to previous token also?

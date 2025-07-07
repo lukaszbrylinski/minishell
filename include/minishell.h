@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/06 21:17:20 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/07 08:46:45 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,29 @@ typedef struct s_token_list {
 	t_token *last;
 } t_token_list;
 
-typedef struct s_tree_node {
-	char *token; // should I pass here whole token?
-	t_tree_node *left;
-	t_tree_node *right;
-} t_tree_node;
+// create enum for rdir types
+typedef struct s_rdir {
+	int fd;
+	char *target;
+	int	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
+} t_rdirs;
+
+typedef struct s_command {
+	char *cmnd;
+	char *args;
+	t_rdirs **rdirs;
+} t_command;
+
+typedef struct s_ast {
+	enum {COMD_NODE, PIPE_NODE} type;
+	union {
+		t_command *cmnd;
+		struct {
+			struct s_ast *left;
+			struct s_ast *right;
+		} pipe;
+	};
+} t_ast;
 // structure of ast: enum with command and pipe nodes, structure {command, left, right pipe}
 // splitting linked list by pipe going from the last token
 
@@ -64,6 +82,8 @@ t_type detect_type(char c);
 void print_type(int n);
 int get_token_len(char *cl_input, t_type type);
 void tokenizer(char *cl_input, t_token_list *token_list);
+t_token_list *move_tokens(t_token *token);
+t_token_list *split_list(t_token_list *list);
 
 //do I need easy access to previous token also?
 

@@ -1,4 +1,14 @@
-// add header
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   token_functions.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: byteup <byteup@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/08 20:34:36 by byteup            #+#    #+#             */
+/*   Updated: 2025/07/08 20:34:50 by byteup           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -53,7 +63,7 @@ void add_back(t_token_list *list, t_token *token) //or keep it void?
     if (list->size == 0)
     {
         list->first = token;
-        list->last = token; //should it be NULL?
+        list->last = token; //should it be NULL? LB w ktoryms momencie musi byc NULL zeby nie bylo seg faulta, a tu nie ma go
     }
     else
     {
@@ -63,7 +73,7 @@ void add_back(t_token_list *list, t_token *token) //or keep it void?
         list->last = token;
     }
     list->size++;
-    // return(list->size);
+    // return(list->size); LB - Mysle ze wiecej sensu (jesli juz cos zwracac) ma zwracanie ostatniego elementu linked listy niz rozmiaru. Na size bym zrobil osobna funckje
 }
 
 void add_front(t_token_list *list, t_token *token)
@@ -86,6 +96,7 @@ void add_front(t_token_list *list, t_token *token)
     // return(list->size);
 }
 
+// LB - ja bym usunal liste trzymajaca pierwszy i ostatni token, mam wrazenie ze do nam przeszkodzi bardziej w przyszlosci niz pomoze. IMO zostanmy przy liscie tokenow po ktorej sie iterujemy. Funkcje zwracajace pierwszy i ostatni element listy tokenow by zalatwily sprawe
 void free_delete_first(t_token_list *list)
 {
     t_token *temp;

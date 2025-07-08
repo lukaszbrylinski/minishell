@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: byteup <byteup@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/04 07:15:23 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/08 20:34:24 by byteup           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,29 @@ typedef struct s_token {
 	struct s_token *next;
 } t_token;
 
+// Nie widze sensu tej listy. rozmiar t_token mozemy dostac przez funkcje z lst_size tak samo jak dostanie pierwszego lub ostatniego tokena
+// Jesli chcemy zoptymalizowac mozemy to zrobic pozniej na razie bym zostal przy naprostszej liscie tokenow i na niej iterowal
 typedef struct s_token_list {
-	size_t size; // change to int?
+	size_t size; // change to int? LB - Unsigned int or size_t imo
 	t_token *first;
 	t_token *last;
 } t_token_list;
 
 
-t_token *create_token(char *str, t_type type);
+t_token 	*create_token(char *str, t_type type);
 t_token_list *list_init();
-void add_back(t_token_list *list, t_token *token);
-void add_front(t_token_list *list, t_token *token);
-void free_delete_first(t_token_list *list);
-void list_del_free(t_token_list *list);
-void print_node(t_token *token);
-void print_list(t_token_list *list);
-char	*ft_strndup(const char *s, int len);
-t_type detect_type(char c);
-void print_type(int n);
-int get_token_len(char *cl_input, t_type type);
-void tokenizer(char *cl_input, t_token_list *token_list);
-void get_tokens(char *cl_input, t_token_list *token_list);
+void		 add_back(t_token_list *list, t_token *token);
+void 		add_front(t_token_list *list, t_token *token);
+void 		free_delete_first(t_token_list *list);
+void 		list_del_free(t_token_list *list);
+void 		print_node(t_token *token);
+void 		print_list(t_token_list *list);
+char		*ft_strndup(const char *s, int len);
+t_type		 detect_type(char c);
+void 		print_type(int n);
+int 		get_token_len(char *cl_input, t_type type);
+void 		tokenizer(char *cl_input, t_token_list *token_list);
+void 		get_tokens(char *cl_input, t_token_list *token_list);
 
 //do I need easy access to previous token also?
 

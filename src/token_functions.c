@@ -63,7 +63,6 @@ void add_back(t_token_list *list, t_token *token)
         list->last = token;
     }
     list->size++;
-    // return(list->size);
 }
 
 void add_front(t_token_list *list, t_token *token) //add a flag
@@ -83,7 +82,6 @@ void add_front(t_token_list *list, t_token *token) //add a flag
         list->first = token;
     }
     list->size++;
-    // return(list->size);
 }
 
 void free_delete_first(t_token_list *list)
@@ -118,51 +116,6 @@ void list_del_free(t_token_list *list)
     free(list);
 }
 
-// create command node in one go?
-t_token_list *move_tokens(t_token *token)
-{
-    t_token_list *list;
-    t_token *current;
-
-    if (!token)
-        return (NULL);
-    list = list_init();
-    list->first = token;
-    list->size = 1;
-    current = list->first->next;
-    printf("before loop");
-    while (current)
-    {
-        list->size++;
-        current = current->next;
-    }
-    printf("after loop");
-    list->last = current->previous;
-    return (list);
-}
-
-t_token_list *split_list(t_token_list *list) //memory addres of the node I want to split? or I can just look for the first pipe
-{
-    t_token *current;
-    t_token_list *split_end;
-
-    if (!list || (!list->last)) //modify deleting function, so it will set first and last to token if size == 1
-        return (NULL);
-    current = list->last;
-    while (current)
-    {
-        if (current->type == PIPE)
-        {
-            split_end = move_tokens(current->next);
-            list->size -= split_end->size;
-            list->last = current->previous;
-            list->last->next = NULL;
-        }
-        current = current->previous;
-    }
-    return (split_end);
-}
-
 void print_node(t_token *token)
 {
     printf("Token: %s\nType %d\n", token->token, token->type);
@@ -186,7 +139,7 @@ void print_list(t_token_list *list)
     }
     printf("Printing list\n");
     current = list->first;
-    while (current != NULL)
+    while (current)
     {
         print_node(current);
         current = current->next;

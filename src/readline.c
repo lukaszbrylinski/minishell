@@ -31,22 +31,17 @@ int main()
 	t_token_list *token_list;
 	t_token_list *right_child;
 
+
 	while (1)
 	{
-		token_list = list_init();
+		token_list = list_init(); // move to tokenizer
 		cl_input = rl_gets();
 		tokenizer(cl_input, token_list);
-		print_list(token_list); 
-		printf("\n\nLists after split:\n");
-		right_child = split_list(token_list);
-		// printf("Left child:\n");
-		// print_list(token_list);
-		printf("\nRight child:\n");
-		print_list(right_child);
 		//here should go the parsing and command executing part
 	}
 	return (0);	
 }
+// du -sh * 2>/dev/null | sort -hr | head -n 10
 
 // int	ft_iswspace(int c)
 // {

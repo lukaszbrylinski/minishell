@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/07 08:46:45 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/09 01:37:20 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,16 @@ typedef struct s_rdir {
 	int fd;
 	char *target;
 	int	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
-} t_rdirs;
+} t_rdir;
 
 typedef struct s_command {
 	char *cmnd;
 	char *args;
-	t_rdirs **rdirs;
+	t_rdir **rdirs;
 } t_command;
 
 typedef struct s_ast {
-	enum {COMD_NODE, PIPE_NODE} type;
+	enum {CMND_NODE, PIPE_NODE} type;
 	union {
 		t_command *cmnd;
 		struct {
@@ -65,6 +65,9 @@ typedef struct s_ast {
 		} pipe;
 	};
 } t_ast;
+
+// do I need a structure to store root?
+
 // structure of ast: enum with command and pipe nodes, structure {command, left, right pipe}
 // splitting linked list by pipe going from the last token
 

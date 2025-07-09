@@ -78,10 +78,27 @@ int	type_in_list(t_token_list *list, t_type type)
 // 	t_rdirs **rdirs;
 // } t_command;
 
-// I need to add one more star to modify it (?)
-t_rdir get_redirections(t_token_list *list, t_rdir ***rdirs, int i) 
-{
+// I need a function to append to 2d array
 
+t_rdir **join_2d(t_rdir **rdirs, t_rdir *rdir)
+{
+    
+}
+
+// I need to add one more star to modify it (?)
+t_rdir **get_rdirs(t_token_list *list, t_rdir ***rdirs, int i) 
+{
+    t_rdir **rdirs;
+    int i;
+
+    rdirs = NULL;
+    i = 0;
+    while (type_in_list(list, RDIR))
+    {
+
+        i++;
+        ;
+    }
 }
 
 char *get_args(t_token_list *list)
@@ -112,13 +129,13 @@ t_command *parse_command(t_token_list *list)
     int i;
     t_command *command;
 
-    rdirs = malloc(sizeof(t_rdir *));
-    i = 0;
-    while (type_in_list(list, RDIR))
-    {
-        i++;
-        get_redirections(list, rdirs, i);
-    }
+    // rdirs = malloc(sizeof(t_rdir *));
+    // i = 0;
+    // while (type_in_list(list, RDIR))
+    // {
+    //     i++;
+    //     get_redirections(list, rdirs, i);
+    // }
     command = malloc(sizeof(t_command));
     command->cmnd = list->first->token;
     command->args = get_args(list);

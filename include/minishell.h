@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/09 01:37:20 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/13 12:49:19 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 typedef enum {SEP, CMND, QUOT, RDIR, PIPE} t_type; // change types? (add file?) VAR, FILE, STATUS
 // I need only cmnd and pipe? 
 
-
 typedef struct s_token {
 	struct s_token *previous;
 	char *token;
@@ -42,11 +41,12 @@ typedef struct s_token_list {
 	t_token *last;
 } t_token_list;
 
-// create enum for rdir types
+typedef enum {IN, OUT, AEND, HDOC} t_rdir_type; // AEND_ERR, OUT_ERR
+
 typedef struct s_rdir {
 	int fd;
 	char *target;
-	int	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
+	t_rdir_type	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
 } t_rdir;
 
 typedef struct s_command {
@@ -87,6 +87,8 @@ int get_token_len(char *cl_input, t_type type);
 void tokenizer(char *cl_input, t_token_list *token_list);
 t_token_list *move_tokens(t_token *token);
 t_token_list *split_list(t_token_list *list);
+int	type_in_list(t_token_list *list, t_type type);
+t_rdir_type get_rdir_type(t_token *token);
 
 //do I need easy access to previous token also?
 

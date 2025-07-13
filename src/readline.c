@@ -30,6 +30,7 @@ int main()
 	char *cl_input;
 	t_token_list *token_list;
 	t_token_list *right_child;
+	t_token *current;
 
 
 	while (1)

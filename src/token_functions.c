@@ -84,6 +84,15 @@ void add_front(t_token_list *list, t_token *token) //add a flag
     list->size++;
 }
 
+void free_token(t_token *token)
+{
+    if (!token)
+        return ;
+    if (token->token)
+        free(token->token);
+    free(token);
+}
+
 void free_delete_first(t_token_list *list)
 {
     t_token *temp;

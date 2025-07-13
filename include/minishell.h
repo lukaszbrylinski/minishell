@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/13 12:49:19 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/13 16:24:52 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,13 @@ typedef struct s_rdir {
 	int fd;
 	char *target;
 	t_rdir_type	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
+	struct s_rdir *next;  // pointer to next redirection
 } t_rdir;
 
 typedef struct s_command {
 	char *cmnd;
 	char *args;
-	t_rdir **rdirs;
+	t_rdir *rdir_list;
 } t_command;
 
 typedef struct s_ast {
@@ -76,6 +77,7 @@ t_token *create_token(char *str, t_type type);
 t_token_list *list_init();
 void add_back(t_token_list *list, t_token *token);
 void add_front(t_token_list *list, t_token *token);
+void free_token(t_token *token);
 void free_delete_first(t_token_list *list);
 void list_del_free(t_token_list *list);
 void print_node(t_token *token);
@@ -88,7 +90,11 @@ void tokenizer(char *cl_input, t_token_list *token_list);
 t_token_list *move_tokens(t_token *token);
 t_token_list *split_list(t_token_list *list);
 int	type_in_list(t_token_list *list, t_type type);
-t_rdir_type get_rdir_type(t_token *token);
+int get_rdir_type(t_token *token);
+void print_rdir(t_rdir *rdir);
+t_rdir *create_rdir(t_token *rdir_token);
+void	add_rdir(t_rdir *head, t_rdir *rdir);
+t_rdir *get_rdirs(t_token_list *list);
 
 //do I need easy access to previous token also?
 

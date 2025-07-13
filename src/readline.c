@@ -29,7 +29,7 @@ int main()
 {
 	char *cl_input;
 	t_token_list *token_list;
-	t_token_list *right_child;
+	// t_token_list *right_child;
 	t_token *current;
 
 
@@ -39,6 +39,14 @@ int main()
 		cl_input = rl_gets();
 		tokenizer(cl_input, token_list);
 		//here should go the parsing and command executing part
+		// test of creating rdir
+		current = token_list->last;
+		while (current)
+		{
+		    if (current->type == RDIR)
+		        create_rdir(current);
+		    current = current->previous;
+		}
 	}
 	return (0);	
 }

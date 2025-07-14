@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/13 16:24:52 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/14 07:25:16 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	type_in_list(t_token_list *list, t_type type);
 int get_rdir_type(t_token *token);
 void print_rdir(t_rdir *rdir);
 t_rdir *create_rdir(t_token *rdir_token);
-void	add_rdir(t_rdir *head, t_rdir *rdir);
+void	add_rdir(t_rdir **head, t_rdir *rdir);
 t_rdir *get_rdirs(t_token_list *list);
 
 //do I need easy access to previous token also?

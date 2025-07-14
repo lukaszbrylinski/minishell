@@ -96,7 +96,6 @@ char *get_args(t_token_list *list)
 
 t_command *parse_command(t_token_list *list)
 {
-    int i;
     t_command *command;
 
     command = malloc(sizeof(t_command));

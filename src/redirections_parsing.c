@@ -171,19 +171,22 @@ void    free_rdirs(t_rdir **rdirs) // TO DO: rewrite
 //     return (joined);
 // }
 
-void	add_rdir(t_rdir *head, t_rdir *rdir)
+void	add_rdir(t_rdir **head, t_rdir *rdir)
 {
 	t_rdir *current;
 	if (!rdir)
-	{	
-		head = rdir;
+		return ;
+	if (!*head)
+	{
+		*head = rdir;
+		(*head)->next = NULL;
 		return ;
 	}
-	current = head;
+	current = *head;
 	while (current->next)
 		current = current->next;
 	current = rdir;
-	// rdir->next = NULL;
+	// current->next = NULL;
 }
 
 // I need to add one more star to modify it (?)
@@ -193,28 +196,34 @@ t_rdir *get_rdirs(t_token_list *list)
 	t_rdir *head;
 	t_token *current;
 	t_token *temp;
+	t_token *temp2;
 
 	head = NULL;
+	current = list->last;
     while (current)
     {
 		if (current->type == RDIR)
 		{	
-			add_rdir(head, create_rdir(current));
+			add_rdir(&head, create_rdir(current));
 			// move deleting to the separate function
 			temp = current;
-			if (current == list->last)
+			temp2 = current->next;
+			if (current->next == list->last)
 			{
-				current->previous->next = NULL;
+                current->previous->next = NULL;
 				list->last = current->previous;
 			}
 			else // join two separate ends of linked list
 			{
-				current->next->previous = current->previous;
-				current->previous->next = current->next;
+				current->next->next->previous = current->previous;
+				current->previous->next = current->next->next;
 			}
+            current = current->previous;
+			free_token(temp2);
 			free_token(temp);
 		}
-		current = current->previous;
+        else
+		    current = current->previous; //why it's null after one iteration?
     }
 	return (head);
 }

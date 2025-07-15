@@ -171,9 +171,28 @@ void    free_rdirs(t_rdir **rdirs) // TO DO: rewrite
 //     return (joined);
 // }
 
+// void	add_rdir(t_rdir **head, t_rdir *rdir)
+// {
+// 	t_rdir *current;
+// 	if (!rdir)
+// 		return ;
+// 	if (!*head)
+// 	{
+// 		*head = rdir;
+// 		(*head)->next = NULL;
+// 		return ;
+// 	}
+// 	current = *head;
+// 	while (current->next)
+// 		current = current->next;
+// 	current = rdir;
+// 	// current->next = NULL;
+// }
+
 void	add_rdir(t_rdir **head, t_rdir *rdir)
 {
-	t_rdir *current;
+    t_rdir  *temp;
+
 	if (!rdir)
 		return ;
 	if (!*head)
@@ -182,10 +201,11 @@ void	add_rdir(t_rdir **head, t_rdir *rdir)
 		(*head)->next = NULL;
 		return ;
 	}
-	current = *head;
-	while (current->next)
-		current = current->next;
-	current = rdir;
+	rdir->next = *head;
+    (*head)->next = NULL;
+	head = rdir;
+	rdir->next = temp;
+    temp->next = NULL;
 	// current->next = NULL;
 }
 

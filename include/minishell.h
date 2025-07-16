@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/16 07:30:03 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/16 18:34:07 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,8 @@
 # include <readline/history.h>
 # include "libft.h"
 
-// #define List_count(A) ((A)->count)
-// #define List_first(A) ((A)->first != NULL ? (A)->first->value : NULL)
-// #define List_last(A) ((A)->last != NULL ? (A)->last->value : NULL)
-// #define LIST_FOREACH(L, S, M, V) ListNode *_node = NULL; \
-// for(V = _node = L->S; _node != NULL; V= _node = _node->M)
-
 typedef enum {SEP, CMND, QUOT, RDIR, PIPE} t_type; // change types? (add file?) VAR, FILE, STATUS
-// I need only cmnd and pipe? 
+
 
 typedef struct s_token {
 	struct s_token *previous;

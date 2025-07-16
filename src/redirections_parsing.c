@@ -150,43 +150,6 @@ void    free_rdirs(t_rdir **rdirs) // TO DO: rewrite
     free(rdirs);
 }
 
-// t_rdir **append_2d(t_rdir **rdirs, t_rdir *rdir)
-// {
-//     t_rdir **joined;
-//     int i;
-
-//     if (!rdir && !rdirs)
-//         return (NULL);
-//     joined = malloc(sizeof(t_rdir *) * (getlen_2d(rdirs) + 2));
-// 	if (!joined)
-// 		return (NULL);
-//     i = -1;
-//     while (rdirs && rdirs[++i])
-//         joined[i] = rdirs[i];
-//     joined[i] = rdir;
-//     joined[++i] = NULL;
-//     free(rdirs); //check if it won't affect singular rdirs
-//     return (joined);
-// }
-
-// void	add_rdir(t_rdir **head, t_rdir *rdir)
-// {
-// 	t_rdir *current;
-// 	if (!rdir)
-// 		return ;
-// 	if (!*head)
-// 	{
-// 		*head = rdir;
-// 		(*head)->next = NULL;
-// 		return ;
-// 	}
-// 	current = *head;
-// 	while (current->next)
-// 		current = current->next;
-// 	current = rdir;
-// 	// current->next = NULL;
-// }
-
 void	add_rdir(t_rdir_list **head, t_rdir *rdir)
 {
 	if (!rdir)
@@ -207,8 +170,6 @@ void	add_rdir(t_rdir_list **head, t_rdir *rdir)
 	(*head)->first = rdir;
 }
 
-// I need to add one more star to modify it (?)
-// I need to realloc memory for the list of redirections 
 t_rdir_list *get_rdirs(t_token_list *list)
 {
 	t_rdir_list *rdir_list;

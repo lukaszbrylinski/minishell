@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/14 07:25:16 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/16 07:30:03 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,19 @@ typedef struct s_rdir {
 	int fd;
 	char *target;
 	t_rdir_type	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
+	struct s_rdir *previous;
 	struct s_rdir *next;  // pointer to next redirection
 } t_rdir;
+
+typedef struct s_rdir_list {
+	t_rdir *first;
+	t_rdir *last;
+} t_rdir_list;
 
 typedef struct s_command {
 	char *cmnd;
 	char *args;
-	t_rdir *rdir_list;
+	t_rdir_list *rdir_list;
 } t_command;
 
 typedef struct s_ast {
@@ -93,8 +99,8 @@ int	type_in_list(t_token_list *list, t_type type);
 int get_rdir_type(t_token *token);
 void print_rdir(t_rdir *rdir);
 t_rdir *create_rdir(t_token *rdir_token);
-void	add_rdir(t_rdir **head, t_rdir *rdir);
-t_rdir *get_rdirs(t_token_list *list);
+void	add_rdir(t_rdir_list **head, t_rdir *rdir);
+t_rdir_list *get_rdirs(t_token_list *list);
 
 //do I need easy access to previous token also?
 

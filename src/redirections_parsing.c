@@ -100,7 +100,7 @@ t_rdir *create_rdir(t_token *rdir_token)
 {
     t_rdir *rdir;
 
-    rdir = malloc(sizeof(rdir));
+    rdir = malloc(sizeof(t_rdir));
     if (!rdir)
         return (NULL);
     rdir->type = get_rdir_type(rdir_token); //will it work if get_rdir_type returns int?
@@ -189,42 +189,42 @@ void    free_rdirs(t_rdir **rdirs) // TO DO: rewrite
 // 	// current->next = NULL;
 // }
 
-void	add_rdir(t_rdir **head, t_rdir *rdir)
+void	add_rdir(t_rdir_list **head, t_rdir *rdir)
 {
-    t_rdir  *temp;
-
 	if (!rdir)
 		return ;
 	if (!*head)
 	{
-		*head = rdir;
-		(*head)->next = NULL;
+        *head = malloc(sizeof(t_rdir_list));
+        if (!*head)
+            return ;
+        rdir->next = NULL;
+		(*head)->first = rdir;
+		(*head)->last = rdir;
 		return ;
 	}
-	rdir->next = *head;
-    (*head)->next = NULL;
-	head = rdir;
-	rdir->next = temp;
-    temp->next = NULL;
-	// current->next = NULL;
+    rdir->previous = NULL;
+    rdir->next = (*head)->first;
+    (*head)->first->previous = rdir;
+	(*head)->first = rdir;
 }
 
 // I need to add one more star to modify it (?)
 // I need to realloc memory for the list of redirections 
-t_rdir *get_rdirs(t_token_list *list)
+t_rdir_list *get_rdirs(t_token_list *list)
 {
-	t_rdir *head;
+	t_rdir_list *rdir_list;
 	t_token *current;
 	t_token *temp;
 	t_token *temp2;
 
-	head = NULL;
+	rdir_list = NULL;
 	current = list->last;
     while (current)
     {
 		if (current->type == RDIR)
 		{	
-			add_rdir(&head, create_rdir(current));
+			add_rdir(&rdir_list, create_rdir(current));
 			// move deleting to the separate function
 			temp = current;
 			temp2 = current->next;
@@ -245,5 +245,5 @@ t_rdir *get_rdirs(t_token_list *list)
         else
 		    current = current->previous; //why it's null after one iteration?
     }
-	return (head);
+	return (rdir_list);
 }

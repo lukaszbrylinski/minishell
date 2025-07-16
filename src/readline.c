@@ -31,7 +31,8 @@ int main()
 	t_token_list *token_list;
 	// t_token_list *right_child;
 	// t_token *current;
-	t_rdir *rdir_list;
+	t_rdir_list *rdir_list;
+	t_rdir *current;
 
 
 	while (1)
@@ -42,11 +43,11 @@ int main()
 		//here should go the parsing and command executing part
 		// test of creating rdir_list
 		rdir_list = get_rdirs(token_list);
-		
-		while (rdir_list)
+		current = rdir_list->first;
+		while (current)
 		{
-			print_rdir(rdir_list);
-			rdir_list = rdir_list->next;
+			print_rdir(current);
+			current = current->next;
 		}
 		print_list(token_list);
 	}

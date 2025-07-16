@@ -110,11 +110,9 @@ t_rdir *create_rdir(t_token *rdir_token)
         rdir->fd = STDIN_FILENO;
     else
         rdir->fd = STDOUT_FILENO;
-    rdir->target = rdir_token->next->token;
+    rdir->target = ft_strdup(rdir_token->next->token);
 	rdir->next = NULL;
-    // testing
-    printf("Rdir: %s\n", rdir_token->token);
-    print_rdir(rdir);
+    rdir->previous = NULL;
     return (rdir);
 }
 // test of creating rdir
@@ -243,7 +241,7 @@ t_rdir_list *get_rdirs(t_token_list *list)
 			free_token(temp);
 		}
         else
-		    current = current->previous; //why it's null after one iteration?
+		    current = current->previous;
     }
 	return (rdir_list);
 }

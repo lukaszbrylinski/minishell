@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/16 18:34:07 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/17 08:00:10 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_rdir_list {
 
 typedef struct s_command {
 	char *cmnd;
-	char *args;
+	char **args;
 	t_rdir_list *rdir_list;
 } t_command;
 
@@ -95,6 +95,12 @@ void print_rdir(t_rdir *rdir);
 t_rdir *create_rdir(t_token *rdir_token);
 void	add_rdir(t_rdir_list **head, t_rdir *rdir);
 t_rdir_list *get_rdirs(t_token_list *list);
+t_token_list *move_tokens(t_token *token);
+t_token_list *split_list(t_token_list *list);
+char    **append_array(char **array, char *str);
+char **get_args(t_token_list *list);
+t_command *parse_command(t_token_list *list);
+void    print_command(t_command *command);
 
 //do I need easy access to previous token also?
 

@@ -31,8 +31,8 @@ int main()
 	t_token_list *token_list;
 	// t_token_list *right_child;
 	// t_token *current;
-	t_rdir_list *rdir_list;
-	t_rdir *current;
+
+	t_command *command;
 
 
 	while (1)
@@ -42,14 +42,8 @@ int main()
 		tokenizer(cl_input, token_list);
 		//here should go the parsing and command executing part
 		// test of creating rdir_list
-		rdir_list = get_rdirs(token_list);
-		current = rdir_list->first;
-		while (current)
-		{
-			print_rdir(current);
-			current = current->next;
-		}
-		print_list(token_list);
+		command = parse_command(token_list);
+		print_command(command);
 	}
 	return (0);	
 }

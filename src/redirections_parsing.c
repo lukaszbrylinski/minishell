@@ -2,12 +2,6 @@
 
 #include "minishell.h"
 
-// typedef struct s_rdir {
-// 	int fd;
-// 	char *target;
-// 	int	type; //RDIR_IN, RDIR_OUT, RDIR_APPEND etc.
-// } t_rdirs;
-
 // Shell redirection allows you to change where a command gets its input or sends its output. Instead of the default input (keyboard) and output (terminal), you can redirect input from or output to files, or even to other commands. The main redirection operators are > (output redirection), >> (output redirection with appending), and < (input redirection). 
 // Here's a breakdown of the common redirection types:
 // 1. Output Redirection (>):
@@ -124,15 +118,6 @@ t_rdir *create_rdir(t_token *rdir_token)
 		//     current = current->previous;
 		// }
 
-// size_t  getlen_2d(t_rdir **rdirs)
-// {
-//     size_t  i;
-
-//     i = 0;
-//     while(rdirs && rdirs[i])
-//         i++;
-//     return (i);
-// }
 
 void    free_rdirs(t_rdir **rdirs) // TO DO: rewrite
 {

@@ -3,7 +3,7 @@
 #include "minishell.h"
 
 // create command node in one go?
-t_token_list *move_tokens(t_token *token)
+t_token_list *move_tokens(t_token *token) // no list to print - why?
 {
     t_token_list *list;
     t_token *current;
@@ -15,7 +15,7 @@ t_token_list *move_tokens(t_token *token)
     // print_node(list->first);
     list->size = 1;
     current = list->first->next;
-    while (current->next)
+    while (current)
     {
         list->size++;
         current = current->next;
@@ -25,7 +25,7 @@ t_token_list *move_tokens(t_token *token)
     return (list);
 }
 
-t_token_list *split_list(t_token_list *list)
+t_token_list *split_list(t_token_list *list) // check size
 {
     t_token *current;
     t_token_list *split_end;
@@ -37,7 +37,7 @@ t_token_list *split_list(t_token_list *list)
     {
         if (current->type == PIPE)
         {
-            split_end = move_tokens(current->next);
+            split_end = move_tokens(current->next); 
             split_end->first->previous = NULL;
             list->size -= split_end->size;
             list->last = current->previous;
@@ -73,29 +73,50 @@ int	type_in_list(t_token_list *list, t_type type)
 // print_list(right_child);
 // printf("size of list: %zu\n", right_child->size);
 
-// t_ast parser(t_token_list *list)
-// {
-// 	t_ast *ast;
-//     t_token_list *right_child;
+t_ast *parser(t_token_list *list)
+{
+    t_ast *root;
+	t_ast *current;
+    t_token_list *right_child;
 
-// 	ast = malloc(sizeof(t_ast));
-// 	while (type_in_list(list, PIPE)) //add check for if the list exists?
-// 	{
-//         ast->type = PIPE_NODE;
-//         ast->pipe.right->type = CMND_NODE;
-//         right_child = split_list(list);
-//         ast->pipe.right = parse_command(right_child);
-//         if (type_in_list(list, PIPE))
-//             ast = ast->pipe.left;
-//         else
-//         {
-//             ast->pipe.left->type = CMND_NODE;
-//             ast->pipe.right = parse_command(list);
-//         }
-// 	//    ast->pipe.left = li
-// 	}
-// }
+	root = malloc(sizeof(t_ast));
+    if (!root)
+        return (NULL);
+    current = root;
+	while (type_in_list(list, PIPE)) //add check for if the list exists?
+	{
+        current->type = PIPE_NODE;
+        current->pipe.right = malloc(sizeof(t_ast));
+        current->pipe.right->type = PIPE_NODE;
+        right_child = split_list(list); 
+        current->pipe.right->cmnd = parse_command(right_child);
+        if (type_in_list(list, PIPE))
+        {
+            current->pipe.left = malloc(sizeof(t_ast));
+            current = current->pipe.left;
+        }
+        else
+        {
+            current->pipe.left = malloc(sizeof(t_ast));
+            current->pipe.left->type = CMND_NODE;
+            current->pipe.left->cmnd = parse_command(list);
+        }
+	//    ast->pipe.left = li
+	}
+    return (root);
+}
+
+void    print_ast(t_ast *ast)
+{
+    if (!ast)
+        return ;
+    if (ast->pipe.left)
+        print_ast(ast->pipe.left);
+    else if (ast->pipe.right)
+        print_ast(ast->pipe.right);
+    print_command(ast->cmnd);
+}
 // how do I call it recursivrly?
 
-//add free rdir, free cmnd, free tree functions
+//add free rdir, free tree functions
 // I need to store the root of the tree somehow

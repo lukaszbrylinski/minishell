@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/17 08:00:10 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/17 20:37:35 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_ast {
 	};
 } t_ast;
 
+
 // do I need a structure to store root?
 
 // structure of ast: enum with command and pipe nodes, structure {command, left, right pipe}
@@ -101,6 +102,8 @@ char    **append_array(char **array, char *str);
 char **get_args(t_token_list *list);
 t_command *parse_command(t_token_list *list);
 void    print_command(t_command *command);
+t_ast *parser(t_token_list *list);
+void    print_ast(t_ast *ast);
 
 //do I need easy access to previous token also?
 

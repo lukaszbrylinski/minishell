@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dszafran <dszafran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/17 20:37:35 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/20 18:35:07 by dszafran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ t_token_list *split_list(t_token_list *list);
 int	type_in_list(t_token_list *list, t_type type);
 int get_rdir_type(t_token *token);
 void print_rdir(t_rdir *rdir);
+void    free_rdirs(t_rdir_list *rdirs);
 t_rdir *create_rdir(t_token *rdir_token);
 void	add_rdir(t_rdir_list **head, t_rdir *rdir);
 t_rdir_list *get_rdirs(t_token_list *list);
@@ -102,8 +103,11 @@ char    **append_array(char **array, char *str);
 char **get_args(t_token_list *list);
 t_command *parse_command(t_token_list *list);
 void    print_command(t_command *command);
+void free_command(t_command *cmd);
 t_ast *parser(t_token_list *list);
 void    print_ast(t_ast *ast);
+t_token *new_create_token(char *str, t_type type);
+t_token_list *new_tokenizer(char *cl_input);
 
 //do I need easy access to previous token also?
 

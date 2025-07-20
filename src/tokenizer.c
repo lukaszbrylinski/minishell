@@ -74,3 +74,30 @@ void tokenizer(char *cl_input, t_token_list *token_list)
 		i += len - 1;
 	}
 }
+
+t_token_list *new_tokenizer(char *cl_input)
+{
+	int i = -1;
+	int len;
+	t_type type;
+	t_token *token;
+	t_token_list *token_list;
+
+	token_list = list_init();
+	if (!token_list)
+		return (NULL);
+	while (cl_input[++i])
+	{
+		type = detect_type(cl_input[i]);
+		len = get_token_len(&cl_input[i], type);
+		if (type != SEP)
+		{
+			token = new_create_token(ft_strndup(&cl_input[i], len), type);
+			if (!token)
+				return (list_del_free(token_list), NULL);
+			add_back(token_list, token);
+		}
+		i += len - 1;
+	}
+	return (token_list);
+}

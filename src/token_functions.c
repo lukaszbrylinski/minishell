@@ -28,11 +28,27 @@ t_token *create_token(char *str, t_type type) // do I need a function to create 
     token = malloc(sizeof(t_token));
     if (!token)
 		return (NULL);
-	token->token = ft_strdup(str);
+	token->token = str; //ft_strnduped while passing to create token
 	token->type = type;
     token->previous = NULL;
 	token->next = NULL;
 	return (token);
+}
+
+t_token *new_create_token(char *str, t_type type)
+{
+	t_token *token;
+
+	if (!str)
+		return (NULL);
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (free(str), NULL);
+	token->token = str;
+	token->type = type;
+	token->previous = NULL;
+	token->next = NULL;
+	return token;
 }
 
 t_token_list *list_init()
@@ -40,6 +56,8 @@ t_token_list *list_init()
     t_token_list *list;
 
     list = malloc(sizeof(t_token_list));
+	if (!list)
+		return (NULL);
     list->first = NULL;
     list->last = NULL;
     list->size = 0;

@@ -8,7 +8,7 @@ SRC_DIR		= src/
 OBJ_DIR		= obj/
 # TEST_DIR	= tests/
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -I
+CFLAGS		= -Wall -Werror -Wextra -g -O0 -I
 RM			= rm -f
 
 # Colors

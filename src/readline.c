@@ -29,17 +29,22 @@ int main()
 {
 	char *cl_input;
 	t_token_list *token_list;
-	t_ast *root;
+	t_command *command;
+	// t_ast *root;
 
 
-	while (1)
-	{
-		token_list = list_init(); // move to tokenizer
+	// while (1)
+	// {
 		cl_input = rl_gets();
-		tokenizer(cl_input, token_list);
-		root = parser(token_list);
-		print_ast(root);
-	}
+		token_list = new_tokenizer(cl_input); //leaking - due to modifying list in get_rdirs?
+		command = parse_command(token_list);
+		print_command(command);
+		free_command(command);
+		// print_list(token_list); // tokenizer works
+		list_del_free(token_list);
+		// root = parser(token_list);
+		// print_ast(root);
+	// }
 	return (0);	
 }
 // du -sh * 2>/dev/null | sort -hr | head -n 10

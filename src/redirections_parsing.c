@@ -109,6 +109,7 @@ t_rdir *create_rdir(t_token *rdir_token)
     rdir->previous = NULL;
     return (rdir);
 }
+
 // test of creating rdir
 		// current = token_list->last;
 		// while (current)
@@ -119,18 +120,20 @@ t_rdir *create_rdir(t_token *rdir_token)
 		// }
 
 
-void    free_rdirs(t_rdir **rdirs) // TO DO: rewrite
+void    free_rdirs(t_rdir_list *rdirs)
 {
-    int i;
+    t_rdir *current;
+	t_rdir *temp;
 
     if (!rdirs)
         return ;
-    i = -1;
-    while (rdirs[++i])
+    current = rdirs->first;
+    while (current)
     {
-        if (rdirs[i]->target)
-            free(rdirs[i]->target);
-        free(rdirs[i]);
+        temp = current;
+		current = current->next;
+		free(temp->target);
+		free(temp);
     }
     free(rdirs);
 }
@@ -155,39 +158,54 @@ void	add_rdir(t_rdir_list **head, t_rdir *rdir)
 	(*head)->first = rdir;
 }
 
+// t_rdir_list *get_rdirs(t_token_list *list)
+// {
+// 	t_rdir_list *rdir_list;
+// 	t_token *current;
+
+// 	rdir_list = NULL;
+// 	current = list->last;
+//     while (current)
+//     {
+// 		if (current->type == RDIR)
+// 		{	
+// 			add_rdir(&rdir_list, create_rdir(current));
+// 			if (current->next == list->last)
+// 			{
+//                 current->previous->next = NULL;
+// 				list->last = current->previous;
+// 			}
+// 			else // join two separate ends of linked list
+// 			{
+// 				current->next->next->previous = current->previous;
+// 				current->previous->next = current->next->next;
+// 			}
+//             current = current->previous;
+// 		}
+//         else
+// 		    current = current->previous;
+//     }
+// 	return (rdir_list);
+// }
+
 t_rdir_list *get_rdirs(t_token_list *list)
 {
 	t_rdir_list *rdir_list;
 	t_token *current;
-	t_token *temp;
-	t_token *temp2;
+	t_rdir *rdir;
 
 	rdir_list = NULL;
-	current = list->last;
-    while (current)
-    {
-		if (current->type == RDIR)
-		{	
-			add_rdir(&rdir_list, create_rdir(current));
-			// move deleting to the separate function
-			temp = current;
-			temp2 = current->next;
-			if (current->next == list->last)
-			{
-                current->previous->next = NULL;
-				list->last = current->previous;
-			}
-			else // join two separate ends of linked list
-			{
-				current->next->next->previous = current->previous;
-				current->previous->next = current->next->next;
-			}
-            current = current->previous;
-			free_token(temp2);
-			free_token(temp);
+	current = list->first;
+	while (current)
+	{
+		if (current->type == RDIR && current->next)
+		{
+			rdir = create_rdir(current);
+			if (!rdir)
+				return (free_rdirs(rdir_list), NULL);
+			add_rdir(&rdir_list, rdir);
 		}
-        else
-		    current = current->previous;
-    }
-	return (rdir_list);
+		current = current->next;
+	}
+	return rdir_list;
 }

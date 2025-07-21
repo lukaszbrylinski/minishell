@@ -106,16 +106,16 @@ t_ast *parser(t_token_list *list)
     return (root);
 }
 
-void    print_ast(t_ast *ast)
-{
-    if (!ast)
-        return ;
-    if (ast->pipe.left)
-        print_ast(ast->pipe.left);
-    else if (ast->pipe.right)
-        print_ast(ast->pipe.right);
-    print_command(ast->cmnd);
-}
+// void    print_ast(t_ast *ast)
+// {
+//     if (!ast)
+//         return ;
+//     if (ast->pipe.left)
+//         print_ast(ast->pipe.left);
+//     else if (ast->pipe.right)
+//         print_ast(ast->pipe.right);
+//     print_command(ast->cmnd);
+// }
 // how do I call it recursivrly?
 
 //add free rdir, free tree functions

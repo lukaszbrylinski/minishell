@@ -6,7 +6,7 @@
 /*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/21 08:51:25 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/21 18:01:44 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,9 +115,17 @@ void    print_command(t_command *command);
 t_command *parse_command(t_token_list *list);
 void free_command(t_command *cmd);
 
-//
-
-
+//BUILD AST
+t_ast	*create_cmd_node(t_command *cmd);
+t_ast	*create_pipe_node(t_ast *left, t_ast *right);
+t_token_list *wrap_sublist(t_token *start, t_token *end, t_token_list *list);
+t_ast *parse_tokens(t_token *start, t_token *end, t_token_list *list);
+t_ast *build_ast(t_token_list *tokens);
+void    print_ast(t_ast *ast);
+void free_ast(t_ast *node);
 //do I need easy access to previous token also?
+
+//AST TREE
+
 
 #endif

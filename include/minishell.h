@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dszafran <dszafran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/20 18:35:07 by dszafran         ###   ########.fr       */
+/*   Updated: 2025/07/21 08:51:25 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,30 +84,39 @@ void list_del_free(t_token_list *list);
 void print_node(t_token *token);
 void print_list(t_token_list *list);
 char	*ft_strndup(const char *s, int len);
+t_token_list *move_tokens(t_token *token);
+t_token_list *split_list(t_token_list *list);
+int	type_in_list(t_token_list *list, t_type type);
+t_token_list *move_tokens(t_token *token);
+t_token_list *split_list(t_token_list *list);
+t_ast *parser(t_token_list *list);
+void    print_ast(t_ast *ast);
+t_token *new_create_token(char *str, t_type type);
+
+//TOKENIZER
 t_type detect_type(char c);
 void print_type(int n);
 int get_token_len(char *cl_input, t_type type);
 void tokenizer(char *cl_input, t_token_list *token_list);
-t_token_list *move_tokens(t_token *token);
-t_token_list *split_list(t_token_list *list);
-int	type_in_list(t_token_list *list, t_type type);
+t_token_list *new_tokenizer(char *cl_input);
+
+//REDIRECTIONS PARSING
 int get_rdir_type(t_token *token);
 void print_rdir(t_rdir *rdir);
-void    free_rdirs(t_rdir_list *rdirs);
 t_rdir *create_rdir(t_token *rdir_token);
+void    free_rdirs(t_rdir_list *rdirs);
 void	add_rdir(t_rdir_list **head, t_rdir *rdir);
 t_rdir_list *get_rdirs(t_token_list *list);
-t_token_list *move_tokens(t_token *token);
-t_token_list *split_list(t_token_list *list);
+
+//COMMAND PARSING
 char    **append_array(char **array, char *str);
 char **get_args(t_token_list *list);
-t_command *parse_command(t_token_list *list);
 void    print_command(t_command *command);
+t_command *parse_command(t_token_list *list);
 void free_command(t_command *cmd);
-t_ast *parser(t_token_list *list);
-void    print_ast(t_ast *ast);
-t_token *new_create_token(char *str, t_type type);
-t_token_list *new_tokenizer(char *cl_input);
+
+//
+
 
 //do I need easy access to previous token also?
 

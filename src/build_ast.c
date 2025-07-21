@@ -12,18 +12,18 @@ t_ast	*create_cmd_node(t_command *cmd)
 	return (node);
 }
 
-t_ast	*create_pipe_node(t_ast *left, t_ast *right)
-{
-	t_ast	*node;
+// t_ast	*create_pipe_node(t_ast *left, t_ast *right)
+// {
+// 	t_ast	*node;
 
-	node = malloc(sizeof(t_ast));
-	if (!node)
-		return (NULL);
-	node->type = PIPE_NODE;
-	node->pipe.left = left;
-	node->pipe.right = right;
-	return (node);
-}
+// 	node = malloc(sizeof(t_ast));
+// 	if (!node)
+// 		return (NULL);
+// 	node->type = PIPE_NODE;
+// 	node->pipe.left = left;
+// 	node->pipe.right = right;
+// 	return (node);
+// }
 
 t_token_list *wrap_sublist(t_token *start, t_token *end, t_token_list *list)
 {
@@ -51,6 +51,47 @@ t_token_list *wrap_sublist(t_token *start, t_token *end, t_token_list *list)
 	}
 	return (list);
 }
+
+// t_ast *parse_tokens(t_token *start, t_token *end, t_token_list *list)
+// {
+// 	t_token *curr;
+// 	t_command		*cmd;
+// 	//t_token_list	*sublist;
+// 	// warunki zabezpieczające przed nieskończoną rekurencją
+// 	if (!start || !end || start == end->next || start == end)
+// 		return NULL;
+
+// 	curr = end;
+// 	if (curr && curr != start)
+// 	{
+// 		if (curr->type == PIPE)
+// 		{
+// 			t_ast *node = ft_calloc(1, sizeof(t_ast));
+// 			if (!node)
+// 				return NULL;
+
+// 			node->type = PIPE_NODE;
+
+// 			// ważne: zachowujemy przedział
+// 			node->pipe.left = parse_tokens(start, curr->previous, list);
+// 			node->pipe.right = parse_tokens(curr->next, end, list);
+
+// 			return node;
+// 		}
+// 		curr = curr->previous;
+// 	}
+
+// 	// jeśli nie znaleziono pipe’a, zbuduj pojedyncze polecenie
+// 	// t_token_list *sublist = wrap_sublist(start, end);
+// 	// if (!sublist)
+// 	// 	return NULL;
+
+// 	// return parse_command(sublist);
+// 	list = wrap_sublist(start, end, list);
+// 	cmd = parse_command(list);
+// 	//list_del_free(sublist);
+// 	return (create_cmd_node(cmd));
+// }
 
 t_ast *parse_tokens(t_token *start, t_token *end, t_token_list *list)
 {

@@ -123,12 +123,17 @@ void	print_command(t_command *command)
 	if (!command)
 		return ;
 	printf("Printing command:\n");
-	printf("cmnd: %s\n", command->cmnd);
-	printf("args: ");
-	i = -1;
+	printf("cmnd:\n");
+	if (command->cmnd)
+		printf("%s\n", command->cmnd);
+	printf("\nargs:\n");
 	if (command->args)
-		while (command->args[++i])
-			printf("%s, ", command->args[i]);
+	{	
+		i = -1;
+		if (command->args)
+			while (command->args[++i])
+				printf("%s, ", command->args[i]);
+	}
 	printf("\nrdirs:\n");
 	if (command->rdir_list)
 	{

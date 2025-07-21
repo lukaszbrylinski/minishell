@@ -37,7 +37,8 @@ int main()
 	// {
 		cl_input = rl_gets();
 		token_list = new_tokenizer(cl_input); //leaking - due to modifying list in get_rdirs?
-		root = build_ast(token_list);
+		// root = build_ast(token_list);
+		root = parser(token_list);
 		print_ast(root);
 		free_ast(root);
 		// command = parse_command(token_list);

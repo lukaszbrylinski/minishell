@@ -93,7 +93,7 @@ char	**get_args(t_token_list *list)
 		return (NULL);
 	args = NULL;
 	current = list->first->next;
-	while (current)
+	while (current && current->type != RDIR)
 	{
 		args = append_array(args, ft_strdup(current->token));
 		current = current->next;

@@ -1,0 +1,41 @@
+{
+   ignore_known_leak
+   Memcheck:Cond
+   fun:append_array
+   fun:get_args
+   fun:parse_command
+   fun:main
+}
+{
+   ignore_known_leak
+   Memcheck:Cond
+   fun:ft_free_split
+   fun:append_array
+   fun:get_args
+   fun:parse_command
+   fun:main
+}
+{
+   ignore_known_leak
+   Memcheck:Cond
+   fun:print_command
+   fun:main
+}
+{
+   ignore_known_leak
+   Memcheck:Cond
+   fun:ft_free_split
+   fun:free_command
+   fun:main
+}
+{
+   ignore_known_leak
+   Memcheck:Leak
+   match-leak-kinds: definite
+   fun:malloc
+   fun:ft_strdup
+   fun:get_args
+   fun:parse_command
+   fun:main
+}
+

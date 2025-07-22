@@ -102,17 +102,4 @@
 // 	return (1);
 // }
 
-void free_ast(t_ast *node)
-{
-	if (!node)
-		return;
 
-	if (node->type == CMND_NODE)
-		free_command(node->cmnd);
-	else if (node->type == PIPE_NODE)
-	{
-		free_ast(node->pipe.left);
-		free_ast(node->pipe.right);
-	}
-	free(node);
-}

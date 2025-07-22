@@ -2,34 +2,6 @@
 
 #include "minishell.h"
 
-// char    **append_array(char **array, char *str)
-// {
-//     char **new_array;
-//     int  i;
-
-//     if (!str)
-//         return (array);
-//     if (!array)
-//     {
-//         array = malloc(sizeof(char *) * 2);
-//         array[0] = str;
-//         array[1] = NULL;
-//         return (array);
-//     }
-//     i = 0;
-//     while (array[i] != NULL)
-//         i++;
-//     new_array = malloc(sizeof(char *) * (i + 2));
-// 	if (!new_array)
-
-//     i = -1;
-//     while (array[++i])
-//         new_array[i] = array[i];
-//     new_array[i] = str;
-//     new_array[i + 1] = NULL;
-//     return (ft_free_split(array), new_array);
-// }
-
 char    **append_array(char **array, char *str)
 {
     char **new_array;
@@ -55,34 +27,6 @@ char    **append_array(char **array, char *str)
     new_array[i + 1] = NULL;
     return (new_array);
 }
-
-// char	**append_array(char **old, char *new_elem)
-// {
-// 	int		size;
-// 	int		i;
-// 	char	**new_arr;
-
-// 	size = 0;
-// 	i = 0;
-// 	if (!new_elem)
-// 		return (old);
-// 	while (old && old[size])
-// 		size++;
-// 	new_arr = malloc(sizeof(char *) * (size + 2));
-// 	if (!new_arr)
-// 	{	
-// 		if (old)
-// 			ft_free_split(old);
-// 		return (NULL);
-// 	}
-// 	while (i++ < size)
-// 		new_arr[i] = old[i]; // kopiujemy wskaźniki
-// 	new_arr[size] = new_elem;
-// 	new_arr[size + 1] = NULL;
-// 	if (old)
-// 		ft_free_split(old); // tylko tablica wskaźników
-// 	return (new_arr);
-// }
 
 char	**get_args(t_token_list *list)
 {

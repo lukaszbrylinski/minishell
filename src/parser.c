@@ -31,7 +31,6 @@ t_token_list *move_tokens(t_token *token) // no list to print - why?
 t_token_list *split_list(t_token_list *list) // check size
 {
     t_token *current;
-	// t_token *temp;
     t_token_list *split_end;
 
     if (!list || (!list->last)){ //modify deleting function, so it will set first and last to token if size == 1
@@ -73,13 +72,6 @@ int	type_in_list(t_token_list *list, t_type type)
 	return (0);
 }
 
-// right_child = split_list(token_list);
-// printf("Left child:\n");
-// print_list(token_list);
-// printf("\nRight child:\n");
-// print_list(right_child);
-// printf("size of list: %zu\n", right_child->size);
-
 t_ast *create_cmnd_node(t_token_list *list)
 {
 	t_ast *cmnd_node;
@@ -105,40 +97,22 @@ t_ast *create_pipe_node(t_token_list *list)
 	t_ast *pipe_node;
 	t_token_list *split_end;
 
-	printf("List: \n");
-	print_list(list);
 	if (!list)
 		return (NULL);
-	split_end = split_list(list); //seg fault
+	split_end = split_list(list);
 	if (!split_end)
 		return (NULL); //change to error handling}
-	printf("Split end: \n");
-	print_list(split_end);
 	pipe_node = malloc(sizeof(t_ast));
 	if (!pipe_node)
 		return (NULL); //error handling
-	// printf("pipe node alloced, no seg\n");
 	pipe_node->type = PIPE_NODE;
 	cmnd_node = create_cmnd_node(split_end);
-	// pipe_node->pipe.right->type = CMND_NODE;
 	pipe_node->pipe.right = cmnd_node;
-	// pipe_node->pipe.right = malloc(sizeof(t_ast));
-	//
-	// pipe_node->pipe.right->type = CMND_NODE;
-	// pipe_node->pipe.right = parse_command(split_end);
 	if (type_in_list(list, PIPE))
 		pipe_node->pipe.left = NULL;
 	else
 		pipe_node->pipe.left = create_cmnd_node(list);
-	// current = list->last;
-	// while (current && current->type != PIPE)
-	// 	current = current->previous;
-	// list->last = current->previous;
-	// list->last->next = NULL;
-	//substract from size
-	// free_token(current);
 	list_del_free(split_end); //move to create cmnd node, so we dont have to free the mail list
-	// printf("no seg\n");
 	return (pipe_node);
 }
 
@@ -171,79 +145,15 @@ t_ast *parser(t_token_list *list)
 		return (NULL);
 	root = create_pipe_node(list);
 	print_pipe_node(root);
-	// printf("root: %p", current->pipe.left);
 	current = root;
-	printf("current: %p\n", current);
 	while (list && type_in_list(list, PIPE))
 	{
-		printf("creating pipe node\n");
-		printf("current->pipe.left: %p\n", current->pipe.left);
 		current->pipe.left = create_pipe_node(list);
-		printf("new pipe node:\n");
 		print_pipe_node(current->pipe.left);
 		if (!current->pipe.left)
-			return (NULL); // or some cleanup
+			return (NULL); // error handling
 		current = current->pipe.left;
-		printf("one pipe node created!\n");
 	}
-	printf("ast created\n");
+	//free list
 	return (root);
 }
-
-// t_ast *parser(t_token_list *list)
-// {
-//     t_ast *root;
-// 	t_ast *current;
-// 	// t_token *token;
-//     t_token_list *right_child;
-
-// 	root = malloc(sizeof(t_ast));
-//     if (!root)
-//         return (NULL);
-//     current = root;
-// 	while (type_in_list(list, PIPE)) //add check for if the list exists?
-// 	{
-//         current->type = PIPE_NODE;
-// 		printf("no seg after assigning type as pipe node\n");
-//         current->pipe.right = malloc(sizeof(t_ast));
-// 		printf("no seg after allocing pipe.right\n");
-// 		if (!current->pipe.right)
-// 			return (NULL);
-//         current->pipe.right->type = CMND_NODE;
-// 		printf("no seg after assigning pipe right type as pipe node\n");
-//         right_child = split_list(list);
-// 		print_list(right_child);
-// 		printf("no seg splitting token list\n");
-//         current->pipe.right->cmnd = parse_command(right_child);
-// 		print_command(current->pipe.right->cmnd);
-// 		printf("no seg splitting token list\n");
-//         if (type_in_list(list, PIPE))
-//         {
-//             current->pipe.left = malloc(sizeof(t_ast));
-//             current = current->pipe.left;
-//         }
-//         else
-//         {
-//             current->pipe.left = malloc(sizeof(t_ast));
-//             current->pipe.left->type = CMND_NODE;
-//             current->pipe.left->cmnd = parse_command(list);
-//         }
-// 	//    ast->pipe.left = li
-// 	}
-//     return (root);
-// }
-
-// void    print_ast(t_ast *ast)
-// {
-//     if (!ast)
-//         return ;
-//     if (ast->pipe.left)
-//         print_ast(ast->pipe.left);
-//     else if (ast->pipe.right)
-//         print_ast(ast->pipe.right);
-//     print_command(ast->cmnd);
-// }
-// how do I call it recursivrly?
-
-//add free rdir, free tree functions
-// I need to store the root of the tree somehow

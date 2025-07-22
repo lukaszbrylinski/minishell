@@ -114,6 +114,5 @@ void free_ast(t_ast *node)
 		free_ast(node->pipe.left);
 		free_ast(node->pipe.right);
 	}
-
 	free(node);
 }

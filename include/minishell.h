@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: dszafran <dszafran@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/21 18:01:44 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/22 18:28:37 by dszafran         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,6 @@ void list_del_free(t_token_list *list);
 void print_node(t_token *token);
 void print_list(t_token_list *list);
 char	*ft_strndup(const char *s, int len);
-t_token_list *move_tokens(t_token *token);
-t_token_list *split_list(t_token_list *list);
-int	type_in_list(t_token_list *list, t_type type);
-t_token_list *move_tokens(t_token *token);
-t_token_list *split_list(t_token_list *list);
-t_ast *parser(t_token_list *list);
 void    print_ast(t_ast *ast);
 t_token *new_create_token(char *str, t_type type);
 
@@ -115,9 +109,18 @@ void    print_command(t_command *command);
 t_command *parse_command(t_token_list *list);
 void free_command(t_command *cmd);
 
+//PARSER
+t_token_list *move_tokens(t_token *token);
+t_token_list *split_list(t_token_list *list);
+int	type_in_list(t_token_list *list, t_type type);
+t_ast *create_cmnd_node(t_token_list *list);
+t_ast *create_pipe_node(t_token_list *list);
+void	print_pipe_node(t_ast *node);
+t_ast *parser(t_token_list *list);
+
 //BUILD AST
-t_ast	*create_cmd_node(t_command *cmd);
-t_ast	*create_pipe_node(t_ast *left, t_ast *right);
+// t_ast	*create_cmd_node(t_command *cmd);
+// t_ast	*create_pipe_node(t_ast *left, t_ast *right);
 t_token_list *wrap_sublist(t_token *start, t_token *end, t_token_list *list);
 t_ast *parse_tokens(t_token *start, t_token *end, t_token_list *list);
 t_ast *build_ast(t_token_list *tokens);

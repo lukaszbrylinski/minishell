@@ -150,10 +150,13 @@ void    print_ast(t_ast *ast)
 {
 	if (!ast)
 		return ;
-	if (ast->type == PIPE)
-	{	
-		print_ast(ast->pipe.left);
-		print_ast(ast->pipe.right);
+	printf("printing ast\n");
+	// print_pipe_node(ast);
+	if (ast->type == CMND_NODE)
+		printf("just one command\n");
+	while (ast->type != CMND_NODE)
+	{
+		print_pipe_node(ast);
+		ast = ast->pipe.left;
 	}
-    print_command(ast->cmnd);
 }

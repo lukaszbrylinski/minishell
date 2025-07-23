@@ -8,7 +8,7 @@ SRC_DIR		= src/
 OBJ_DIR		= obj/
 # TEST_DIR	= tests/
 CC			= cc
-CFLAGS		= -Wall -Werror -Wextra -I
+CFLAGS		= -Wall -Werror -Wextra -g -O0 -I
 RM			= rm -f
 
 # Colors
@@ -25,7 +25,7 @@ WHITE = \033[0;97m
 
 #Sources
 
-SRC_FILES	=	token_functions tokenizer readline
+SRC_FILES	=	token_functions tokenizer redirections_parsing command_parsing parser_functions parser execution readline
 
 SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))

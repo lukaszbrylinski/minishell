@@ -1,82 +1,37 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   token_functions.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: byteup <byteup@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/08 20:34:36 by byteup            #+#    #+#             */
-/*   Updated: 2025/07/08 20:34:50 by byteup           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+// add header
 
 #include "minishell.h"
-
-char	*ft_strndup(const char *s, int len)
-{
-	char	*ptr;
-	int		i;
-
-	if (!s)
-		return (NULL);
-	ptr = (char *) malloc(len + 1);
-	if (!ptr)
-		return (NULL);
-	i = 0;
-	while (s[i] && i < len)
-	{
-		ptr[i] = s[i];
-		i++;
-	}
-	return (ptr[i] = 0, ptr);
-}
-
-t_token *create_token(char *str, t_type type) // do I need a function to create tokens with set next?
-{
-	t_token *token;
-
-    token = malloc(sizeof(t_token));
-    if (!token)
-		return (NULL);
-	token->token = ft_strdup(str);
-	token->type = type;
-    token->previous = NULL;
-	token->next = NULL;
-	return (token);
-}
 
 t_token_list *list_init()
 {
     t_token_list *list;
 
-    list = malloc(sizeof(list));
+    list = malloc(sizeof(t_token_list));
+	if (!list)
+		return (NULL);
     list->first = NULL;
     list->last = NULL;
     list->size = 0;
     return (list);
 }
 
-void add_back(t_token_list *list, t_token *token) //or keep it void?
+t_token *create_token(char *str, t_type type)
 {
-    if (!token)
-        return ;
-    if (list->size == 0)
-    {
-        list->first = token;
-        list->last = token; //should it be NULL? LB w ktoryms momencie musi byc NULL zeby nie bylo seg faulta, a tu nie ma go
-    }
-    else
-    {
-        token->previous = list->last;
-        list->last->next = token;
-        token->next = NULL; //should it be start?
-        list->last = token;
-    }
-    list->size++;
-    // return(list->size); LB - Mysle ze wiecej sensu (jesli juz cos zwracac) ma zwracanie ostatniego elementu linked listy niz rozmiaru. Na size bym zrobil osobna funckje
+	t_token *token;
+
+	if (!str)
+		return (NULL);
+	token = malloc(sizeof(t_token));
+	if (!token)
+		return (free(str), NULL);
+	token->token = str;
+	token->type = type;
+	token->previous = NULL;
+	token->next = NULL;
+	return token;
 }
 
-void add_front(t_token_list *list, t_token *token)
+void add_back(t_token_list *list, t_token *token)
 {
     if (!token)
         return ;
@@ -87,17 +42,24 @@ void add_front(t_token_list *list, t_token *token)
     }
     else
     {
-        token->next = list->first;
-        list->first->previous = token;
-        token->previous = NULL; //should it be last?
-        list->first = token;
+        token->previous = list->last;
+        list->last->next = token;
+        token->next = NULL; //should it be start?
+        list->last = token;
     }
     list->size++;
-    // return(list->size);
 }
 
-// LB - ja bym usunal liste trzymajaca pierwszy i ostatni token, mam wrazenie ze do nam przeszkodzi bardziej w przyszlosci niz pomoze. IMO zostanmy przy liscie tokenow po ktorej sie iterujemy. Funkcje zwracajace pierwszy i ostatni element listy tokenow by zalatwily sprawe
-void free_delete_first(t_token_list *list)
+void free_token(t_token *token)
+{
+    if (!token)
+        return ;
+    if (token->token)
+        free(token->token);
+    free(token);
+}
+
+void free_delete_first(t_token_list *list) //niepotrzebna??
 {
     t_token *temp;
 
@@ -110,25 +72,10 @@ void free_delete_first(t_token_list *list)
         list->first->previous = NULL;
     free(temp->token);
     free(temp);
+    list->size--;
 }
 
-void list_del_free(t_token_list *list)
-{
-    t_token *current;
-    if (!list)
-        return ;
-    if (!list->first)
-        return (free(list));
-    current = list->first;
-    while (current != NULL)
-    {
-        current = current->next;
-        free_delete_first(list);
-    }
-    free(list);
-}
-
-void print_node(t_token *token)
+void print_token(t_token *token)
 {
     printf("Token: %s\nType %d\n", token->token, token->type);
     if (token->previous)
@@ -141,22 +88,6 @@ void print_node(t_token *token)
         printf("Next: NULL\n\n");
 }
 
-void print_list(t_token_list *list)
-{
-    t_token *current;
-    if (!list) //|| !list->first
-    {
-        printf("No list to print\n");
-        return ;
-    }
-    printf("Printing list\n");
-    current = list->first;
-    while (current != NULL)
-    {
-        print_node(current);
-        current = current->next;
-    }
-}
 
 // do I need a function to remove specific token? maybe...
 
@@ -208,21 +139,21 @@ void print_list(t_token_list *list)
 //     print_node(token2);
 //     print_node(token3);
 //     printf("List: \n");
-//     print_list(list);
+//     print_token_list(list);
 
 //     add_back(list, token1);
 //     add_back(list, token2);
 //     add_back(list, token3);
 //     printf("\n\nList after adding token1, token2, token3:\n");
-//     print_list(list);
+//     print_token_list(list);
 
 //     printf("\n\nList after deleting first:\n");
 //     free_delete_first(list);
-//     print_list(list);
+//     print_token_list(list);
 
 //     printf("\n\nList after deleating and freeing:\n");
 //     list_del_free(list);
 //     list = NULL;
-//     print_list(list);
+//     print_token_list(list);
 
 // }

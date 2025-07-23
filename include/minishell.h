@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dszafran <dszafran@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/22 19:22:59 by dszafran         ###   ########.fr       */
+/*   Updated: 2025/07/23 09:06:11 by mika             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,64 +67,52 @@ typedef struct s_ast {
 	};
 } t_ast;
 
-
-// do I need a structure to store root?
-
 // structure of ast: enum with command and pipe nodes, structure {command, left, right pipe}
 // splitting linked list by pipe going from the last token
 
 
-t_token *create_token(char *str, t_type type);
+//TOKEN FUNCTIONS
 t_token_list *list_init();
+t_token *create_token(char *str, t_type type);
 void add_back(t_token_list *list, t_token *token);
-void add_front(t_token_list *list, t_token *token);
 void free_token(t_token *token);
 void free_delete_first(t_token_list *list);
-void list_del_free(t_token_list *list);
-void print_node(t_token *token);
-void print_list(t_token_list *list);
-char	*ft_strndup(const char *s, int len);
-void    print_ast(t_ast *ast);
-t_token *new_create_token(char *str, t_type type);
+void print_token(t_token *token);
 
 //TOKENIZER
 t_type detect_type(char c);
-void print_type(int n);
+// void print_type(int n);
 int get_token_len(char *cl_input, t_type type);
-void tokenizer(char *cl_input, t_token_list *token_list);
-t_token_list *new_tokenizer(char *cl_input);
+t_token_list *tokenizer(char *cl_input);
+void print_token_list(t_token_list *list);
+void free_token_list(t_token_list *list);
 
-//REDIRECTIONS PARSING
+//REDIRECTIONS PARSING (later: comment out printing functions)
 int get_rdir_type(t_token *token);
-void print_rdir(t_rdir *rdir);
 t_rdir *create_rdir(t_token *rdir_token);
-void    free_rdirs(t_rdir_list *rdirs);
+void print_rdir(t_rdir *rdir);
 void	add_rdir(t_rdir_list **head, t_rdir *rdir);
 t_rdir_list *get_rdirs(t_token_list *list);
+void    free_rdirs(t_rdir_list *rdirs);
 
 //COMMAND PARSING
 char    **append_array(char **array, char *str);
 char **get_args(t_token_list *list);
-void    print_command(t_command *command);
 t_command *parse_command(t_token_list *list);
+void    print_command(t_command *command);
 void free_command(t_command *cmd);
 
-//PARSER
+//PARSER FUNCTIONS
 t_token_list *move_tokens(t_token *token);
 t_token_list *split_list(t_token_list *list);
-int	type_in_list(t_token_list *list, t_type type);
 t_ast *create_cmnd_node(t_token_list *list);
 t_ast *create_pipe_node(t_token_list *list);
 void	print_pipe_node(t_ast *node);
+
+//PARSER
+int	type_in_list(t_token_list *list, t_type type);
 t_ast *parser(t_token_list *list);
-
-
-//BUILD AST
-
-
-void free_ast(t_ast *node);
 void    print_ast(t_ast *ast);
-
-
+void free_ast(t_ast *node);
 
 #endif

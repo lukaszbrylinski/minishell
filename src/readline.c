@@ -33,10 +33,10 @@ int main()
 	t_ast *root;
 
 
-	// while (1)
-	// {
+	while (1)
+	{
 		cl_input = rl_gets();
-		token_list = new_tokenizer(cl_input); //leaking - due to modifying list in get_rdirs?
+		token_list = tokenizer(cl_input); //leaking - due to modifying list in get_rdirs?
 		// root = build_ast(token_list);
 		root = parser(token_list);
 		print_ast(root);
@@ -44,11 +44,11 @@ int main()
 		// command = parse_command(token_list);
 		// print_command(command);
 		// free_command(command);
-		// print_list(token_list); // tokenizer works
-		list_del_free(token_list);
+		// print_token_list(token_list); // tokenizer works
+		free_token_list(token_list);
 		// root = parser(token_list);
 		// print_ast(root);
-	// }
+	}
 	return (0);	
 }
 // du -sh * 2>/dev/null | sort -hr | head -n 10

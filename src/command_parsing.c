@@ -59,6 +59,7 @@ t_command	*parse_command(t_token_list *list)
 	command->args = get_args(list);
 	return (command);
 }
+
 void	print_command(t_command *command)
 {
 	int		i;

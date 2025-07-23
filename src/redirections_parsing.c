@@ -73,17 +73,6 @@ int get_rdir_type(t_token *token)
 //     current = current->previous;
 // }
 
-void print_rdir(t_rdir *rdir)
-{
-    if (!rdir)
-    {    
-        (printf("No rdir to print"));
-        return ;
-    }
-    printf("Printing rdir:\n");
-    printf("fd: %d, target: %s, type: %d\n", rdir->fd, rdir->target, rdir->type);
-}
-
 //     // I need to iterate from behind until I find rdir
 //     // I will check the exact rdir type
 //     // parse specified tokens to rdir (extract the file based on type)
@@ -108,6 +97,59 @@ t_rdir *create_rdir(t_token *rdir_token)
 	rdir->next = NULL;
     rdir->previous = NULL;
     return (rdir);
+}
+
+void print_rdir(t_rdir *rdir)
+{
+    if (!rdir)
+    {    
+        (printf("No rdir to print"));
+        return ;
+    }
+    printf("Printing rdir:\n");
+    printf("fd: %d, target: %s, type: %d\n", rdir->fd, rdir->target, rdir->type);
+}
+
+void	add_rdir(t_rdir_list **head, t_rdir *rdir)
+{
+	if (!rdir)
+		return ;
+	if (!*head)
+	{
+        *head = malloc(sizeof(t_rdir_list));
+        if (!*head)
+            return ;
+        rdir->next = NULL;
+		(*head)->first = rdir;
+		(*head)->last = rdir;
+		return ;
+	}
+    rdir->previous = NULL;
+    rdir->next = (*head)->first;
+    (*head)->first->previous = rdir;
+	(*head)->first = rdir;
+}
+
+t_rdir_list *get_rdirs(t_token_list *list)
+{
+	t_rdir_list *rdir_list;
+	t_token *current;
+	t_rdir *rdir;
+
+	rdir_list = NULL;
+	current = list->first;
+	while (current)
+	{
+		if (current->type == RDIR && current->next)
+		{
+			rdir = create_rdir(current);
+			if (!rdir)
+				return (free_rdirs(rdir_list), NULL);
+			add_rdir(&rdir_list, rdir);
+		}
+		current = current->next;
+	}
+	return rdir_list;
 }
 
 // test of creating rdir
@@ -136,26 +178,6 @@ void    free_rdirs(t_rdir_list *rdirs)
 		free(temp);
     }
     free(rdirs);
-}
-
-void	add_rdir(t_rdir_list **head, t_rdir *rdir)
-{
-	if (!rdir)
-		return ;
-	if (!*head)
-	{
-        *head = malloc(sizeof(t_rdir_list));
-        if (!*head)
-            return ;
-        rdir->next = NULL;
-		(*head)->first = rdir;
-		(*head)->last = rdir;
-		return ;
-	}
-    rdir->previous = NULL;
-    rdir->next = (*head)->first;
-    (*head)->first->previous = rdir;
-	(*head)->first = rdir;
 }
 
 // t_rdir_list *get_rdirs(t_token_list *list)
@@ -188,24 +210,3 @@ void	add_rdir(t_rdir_list **head, t_rdir *rdir)
 // 	return (rdir_list);
 // }
 
-t_rdir_list *get_rdirs(t_token_list *list)
-{
-	t_rdir_list *rdir_list;
-	t_token *current;
-	t_rdir *rdir;
-
-	rdir_list = NULL;
-	current = list->first;
-	while (current)
-	{
-		if (current->type == RDIR && current->next)
-		{
-			rdir = create_rdir(current);
-			if (!rdir)
-				return (free_rdirs(rdir_list), NULL);
-			add_rdir(&rdir_list, rdir);
-		}
-		current = current->next;
-	}
-	return rdir_list;
-}

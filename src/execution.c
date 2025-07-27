@@ -52,8 +52,6 @@ int exec_command(t_command *cmd)
 	return WEXITSTATUS(status);
 }
 
-// pipe_helpers.c
-
 void	child_pipe_left(t_ast *left, int *pipefd)
 {
 	close(pipefd[0]);
@@ -155,33 +153,19 @@ char **build_argv(t_command *cmd)
 			return NULL;
 		base_argc = count_args(split_args);
 	}
-
 	argv = malloc(sizeof(char *) * (base_argc + 2));
 	if (!argv)
-	{
-		free_argv(split_args);
-		return NULL;
-	}
-
+		return (free_argv(split_args),NULL);
 	argv[0] = ft_strdup(cmd->cmnd);
 	if (!argv[0])
-	{
-		free_argv(argv);
-		free_argv(split_args);
-		return NULL;
-	}
-
-	for (int i = 0; split_args && split_args[i]; i++)
+		return (free_argv(argv), free_argv(split_args), NULL);
+    i = -1;
+	while (split_args && split_args[++i])
 	{
 		argv[i + 1] = ft_strdup(split_args[i]);
 		if (!argv[i + 1])
-		{
-			free_argv(argv);
-			free_argv(split_args);
-			return NULL;
-		}
+			return(free_argv(argv), free_argv(split_args), NULL);
 	}
 	argv[base_argc + 1] = NULL;
-	free_argv(split_args);
-	return argv;
+	return (free_argv(split_args), argv);
 }

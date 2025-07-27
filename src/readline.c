@@ -21,9 +21,25 @@ char *rl_gets()
 	line_read = readline("> ");
 	if (line_read && *line_read)
 		add_history(line_read); // I need additional check for white characters, to make them not save into history
+	if (!line_read)
+		return (NULL);
 	return (line_read);
 }
 
+void  INThandler(int sig)
+{
+     char  c;
+
+     signal(sig, SIG_IGN);
+     printf("OUCH, did you hit Ctrl-C?\n"
+            "Do you really want to quit? [y/n] ");
+     c = getchar();
+     if (c == 'y' || c == 'Y')
+          exit(0);
+     else
+          signal(SIGINT, INThandler);
+     getchar(); // Get new line character
+}
 
 int main()
 {
@@ -32,20 +48,30 @@ int main()
 	// t_command *command;
 	t_ast *root;
 
-
+	signal(SIGINT, INThandler);
 	while (1)
 	{
 		cl_input = rl_gets();
+		// cl_input = readline("> ");
+		if (!cl_input)
+		{
+			//printf("exit\n");
+			break ;
+		}
+		// if (*cl_input)
+			// add_history(cl_input);
 		token_list = tokenizer(cl_input); //leaking - due to modifying list in get_rdirs?
 		// root = build_ast(token_list);
 		root = parser(token_list);
 		print_ast(root);
+		exec_ast(root);
 		free_ast(root);
 		// command = parse_command(token_list);
 		// print_command(command);
 		// free_command(command);
 		// print_token_list(token_list); // tokenizer works
 		free_token_list(token_list);
+		// free(cl_input);
 		// root = parser(token_list);
 		// print_ast(root);
 	}

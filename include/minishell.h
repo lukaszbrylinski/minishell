@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mika <mika@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: byteup <byteup@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/26 15:43:37 by dszafran          #+#    #+#             */
-/*   Updated: 2025/07/23 09:16:12 by mika             ###   ########.fr       */
+/*   Updated: 2025/07/27 03:22:49 by byteup           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
+# include <fcntl.h>
+#include <signal.h>
 
 typedef enum {SEP, CMND, QUOT, RDIR, PIPE} t_type; // change types? (add file?) VAR, FILE, STATUS
 
@@ -116,5 +118,24 @@ int	type_in_list(t_token_list *list, t_type type);
 t_ast *parser(t_token_list *list);
 void    print_ast(t_ast *ast);
 void free_ast(t_ast *node);
+
+//EXECUTION
+void	handle_redirections(t_rdir *rdir);
+int exec_command(t_command *cmd);
+void	child_pipe_left(t_ast *left, int *pipefd);
+void	child_pipe_right(t_ast *right, int *pipefd);
+int	exec_pipe(t_ast *left, t_ast *right);
+int	exec_ast(t_ast *node);
+char **build_argv(t_command *cmd);
+void	free_argv(char **argv);
+int	count_args(char **args);
+char **alloc_argv(int total);
+
+//HEREDOC
+char	*gen_tmpfile_name(void);
+int	read_heredoc(const char *delimiter, char **filename);
+
+//SIGNALS
+void  INThandler(int sig);
 
 #endif
